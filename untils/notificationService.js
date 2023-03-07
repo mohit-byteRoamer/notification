@@ -1,7 +1,7 @@
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import * as RootNavigation from './rootNavigation';
 // Initialize Firebase app with your project credentials
 firebase.initializeApp({
   // your project configuration
@@ -46,6 +46,7 @@ export const notificationListener = async () => {
       'Notification caused app to open from background state:',
       remoteMessage.notification,
     );
+    RootNavigation.navigate('SecondPage');
   });
   messaging.onMessage(async remoteMessage => {
     console.log('Message from foreground', remoteMessage);
