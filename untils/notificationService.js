@@ -34,3 +34,30 @@ const getFcmToken = async () => {
     }
   }
 };
+
+export const notificationListener = async () => {
+  // messaging().setBackgroundMessageHandler(async remoteMessage => {
+  //   console.log('Message handled in the background!', remoteMessage);
+  // });
+
+  messaging().onNotificationOpenedApp(remoteMessage => {
+    console.log('click');
+    console.log(
+      'Notification caused app to open from background state:',
+      remoteMessage.notification,
+    );
+  });
+  messaging.onMessage(async remoteMessage => {
+    console.log('Message from foreground', remoteMessage);
+  });
+  messaging()
+    .getInitialNotification()
+    .then(remoteMessage => {
+      if (remoteMessage) {
+        console.log(
+          'Notification caused app to open from quit state:',
+          remoteMessage.notification,
+        );
+      }
+    });
+};
