@@ -2,6 +2,7 @@ import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as RootNavigation from './rootNavigation';
+
 // Initialize Firebase app with your project credentials
 firebase.initializeApp({
   // your project configuration
@@ -36,17 +37,26 @@ const getFcmToken = async () => {
 };
 
 export const notificationListener = async () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+
   // messaging().setBackgroundMessageHandler(async remoteMessage => {
   //   console.log('Message handled in the background!', remoteMessage);
   // });
+  messaging().onMessage(message => {
+    // Get the title of the message and dispatch the SET_MESSAGE action
+    const {title} = message.notification;
+    console.log('Title ', title);
 
+    // setStateFunction(title);
+  });
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log('click');
     console.log(
       'Notification caused app to open from background state:',
       remoteMessage.notification,
     );
-    RootNavigation.navigate('SecondPage');
+    // setStateFunction(remoteMessage.notification.title);
+    RootNavigation.navigate('SixthPage');
   });
   messaging.onMessage(async remoteMessage => {
     console.log('Message from foreground', remoteMessage);
